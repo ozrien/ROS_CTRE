@@ -54,7 +54,7 @@
 namespace ros_control_boilerplate
 {
 /// \brief Hardware interface for a robot
-class FRCRobotInterface : public hardware_interface::RobotHW
+class CTRERobotInterface : public hardware_interface::RobotHW
 {
 	public:
 		/**
@@ -62,10 +62,10 @@ class FRCRobotInterface : public hardware_interface::RobotHW
 		 * \param nh - Node handle for topics.
 		 * \param urdf - optional pointer to a parsed robot model
 		 */
-		FRCRobotInterface(ros::NodeHandle &nh, urdf::Model *urdf_model = NULL);
+		CTRERobotInterface(ros::NodeHandle &nh, urdf::Model *urdf_model = NULL);
 
 		/** \brief Destructor */
-		virtual ~FRCRobotInterface() {}
+		virtual ~CTRERobotInterface() {}
 
 		/** \brief Initialize the hardware interface */
 		virtual void init();

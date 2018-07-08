@@ -33,7 +33,7 @@
  *********************************************************************/
 
 /* Author: Dave Coleman
-   Desc:   Example ros_control hardware interface blank template for the FRCRobot
+   Desc:   Example ros_control hardware interface blank template for the CTRERobot
            For a more detailed simulation example, see sim_hw_interface.h
 */
 
@@ -47,6 +47,7 @@
 
 #include <ctre/phoenix/MotorControl/CAN/TalonSRX.h>
 #include <std_msgs/Float64.h>
+#include <sensor_msgs/Joy.h>
 
 namespace ctrerobot_control
 {
@@ -55,18 +56,18 @@ namespace ctrerobot_control
 // know our robot is alive.  
 
 /// \brief Hardware interface for a robot
-class FRCRobotHWInterface : public ros_control_boilerplate::FRCRobotInterface
+class CTRERobotHWInterface : public ros_control_boilerplate::CTRERobotInterface
 {
 	public:
 		/**
 		 * \brief Constructor
 		 * \param nh - Node handle for topics.
 		 */
-		FRCRobotHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model = NULL);
-		~FRCRobotHWInterface();
+		CTRERobotHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model = NULL);
+		~CTRERobotHWInterface();
 
 		/** \brief Initialize the hardware interface */
-		virtual void init(void) override;
+		virtual void init(const char * interface);
 
 		/** \brief Read the state from the robot hardware. */
 		virtual void read(ros::Duration &elapsed_time) override;
@@ -75,7 +76,10 @@ class FRCRobotHWInterface : public ros_control_boilerplate::FRCRobotInterface
 		virtual void write(ros::Duration &elapsed_time) override;
 
 	private:
-		void hal_keepalive_thread(void);
+	    ros::Subscriber enable_;
+        void enableJoy(const sensor_msgs::Joy& joy);
+		
+        void hal_keepalive_thread(void);
 
 		/* Get conversion factor for position, velocity, and closed-loop stuff */
 

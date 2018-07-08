@@ -89,7 +89,7 @@ install(TARGETS
 )
 
 #if 
-# FRCRobot Hardware Interface only
+# CTRERobot Hardware Interface only
 
 # Main control executable
 add_executable(ctrerobot_hw_main 

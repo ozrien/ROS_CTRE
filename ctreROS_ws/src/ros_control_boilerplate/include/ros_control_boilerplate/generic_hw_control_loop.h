@@ -63,7 +63,7 @@ class GenericHWControlLoop
 		 */
 		GenericHWControlLoop(
 			ros::NodeHandle &nh,
-			boost::shared_ptr<ros_control_boilerplate::FRCRobotInterface> hardware_interface);
+			boost::shared_ptr<ros_control_boilerplate::CTRERobotInterface> hardware_interface);
 
 
 		// Run the control loop (blocking)
@@ -99,7 +99,7 @@ class GenericHWControlLoop
 		boost::shared_ptr<controller_manager::ControllerManager> controller_manager_;
 
 		/** \brief Abstract Hardware Interface for your robot */
-		boost::shared_ptr<ros_control_boilerplate::FRCRobotInterface> hardware_interface_;
+		boost::shared_ptr<ros_control_boilerplate::CTRERobotInterface> hardware_interface_;
 
 };  // end class
 

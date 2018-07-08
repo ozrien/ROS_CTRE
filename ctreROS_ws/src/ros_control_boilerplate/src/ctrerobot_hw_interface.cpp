@@ -33,7 +33,7 @@
  *********************************************************************/
 
 /* Original Author: Dave Coleman
-   Desc:   Example ros_control hardware interface blank template for the FRCRobot
+   Desc:   Example ros_control hardware interface blank template for the CTRERobot
            For a more detailed simulation example, see sim_hw_interface.cpp
 */
 
@@ -46,34 +46,42 @@
 #include "ros_control_boilerplate/ctrerobot_hw_interface.h"
 
 #include <ctre/phoenix/MotorControl/SensorCollection.h>
+#include <ctre/phoenix/Platform/CANProtocol.h>
+#include <ctre/phoenix/Platform/SysWatchdog.h>
 
 namespace ctrerobot_control
 {
 const int pidIdx = 0; //0 for primary closed-loop, 1 for cascaded closed-loop
 const int timeoutMs = 0; //If nonzero, function will wait for config success and report an error if it times out. If zero, no blocking or checking is performed
 
-FRCRobotHWInterface::FRCRobotHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
-	: ros_control_boilerplate::FRCRobotInterface(nh, urdf_model)
+CTRERobotHWInterface::CTRERobotHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model)
+	: ros_control_boilerplate::CTRERobotInterface(nh, urdf_model)
+{
+    enable_ = nh.subscribe("joy", 1, &CTRERobotHWInterface::enableJoy, this);
+}
+
+CTRERobotHWInterface::~CTRERobotHWInterface()
 {
 }
 
-FRCRobotHWInterface::~FRCRobotHWInterface()
-{
-}
 
 
 
 
 
-
-void FRCRobotHWInterface::init(void)
+void CTRERobotHWInterface::init(const char * interface)
 {
     ROS_ERROR("IN INIT");
 	// Do base class init. This loads common interface info
 	// used by both the real and sim interfaces
-	FRCRobotInterface::init();
+	CTRERobotInterface::init();
 
-	for (size_t i = 0; i < num_can_talon_srxs_; i++)
+    if(interface != "auto") {
+        ctre::phoenix::platform::can::CANProtocol::GetInstance(interface);
+    }
+
+
+    for (size_t i = 0; i < num_can_talon_srxs_; i++)
 	{
 		ROS_INFO_STREAM_NAMED("ctrerobot_hw_interface",
 							  "Loading joint " << i << "=" << can_talon_srx_names_[i] <<
@@ -84,12 +92,18 @@ void FRCRobotHWInterface::init(void)
 							  "\tTalon SRX firmware version " << can_talons_[i]->GetFirmwareVersion());
 	}
 
-	ROS_INFO_NAMED("ctrerobot_hw_interface", "FRCRobotHWInterface Ready.");
+	ROS_INFO_NAMED("ctrerobot_hw_interface", "CTRERobotHWInterface Ready.");
+}
+void CTRERobotHWInterface::enableJoy(const sensor_msgs::Joy& joy)
+{
+    if(joy.buttons[0] && ((ros::Time::now() - joy.header.stamp) > ros::Duration(0.1))) { //TODO: fix
+        ctre::phoenix::platform::SysWatchdog::GetInstance().Feed(100);
+    }
 }
 
-void FRCRobotHWInterface::read(ros::Duration &/*elapsed_time*/)
+void CTRERobotHWInterface::read(ros::Duration &/*elapsed_time*/)
 {
-	for (std::size_t joint_id = 0; joint_id < num_can_talon_srxs_; ++joint_id)
+    for (std::size_t joint_id = 0; joint_id < num_can_talon_srxs_; ++joint_id)
 	{
 		auto &talon = can_talons_[joint_id];
 		if (!talon) // skip unintialized Talons
@@ -203,7 +217,7 @@ void FRCRobotHWInterface::read(ros::Duration &/*elapsed_time*/)
 	}
 }
 
-double FRCRobotHWInterface::getConversionFactor(int encoder_ticks_per_rotation,
+double CTRERobotHWInterface::getConversionFactor(int encoder_ticks_per_rotation,
 						hardware_interface::FeedbackDevice encoder_feedback,
 						hardware_interface::TalonMode talon_mode)
 {
@@ -262,7 +276,7 @@ double FRCRobotHWInterface::getConversionFactor(int encoder_ticks_per_rotation,
 	}
 }
 
-bool FRCRobotHWInterface::safeTalonCall(ctre::phoenix::ErrorCode error_code, const std::string &talon_method_name)
+bool CTRERobotHWInterface::safeTalonCall(ctre::phoenix::ErrorCode error_code, const std::string &talon_method_name)
 {
 	std::string error_name;
 	switch (error_code)
@@ -404,7 +418,7 @@ bool FRCRobotHWInterface::safeTalonCall(ctre::phoenix::ErrorCode error_code, con
 	return false;
 }
 
-void FRCRobotHWInterface::write(ros::Duration &elapsed_time)
+void CTRERobotHWInterface::write(ros::Duration &elapsed_time)
 {
 	for (std::size_t joint_id = 0; joint_id < num_can_talon_srxs_; ++joint_id)
 	{
@@ -889,7 +903,7 @@ void FRCRobotHWInterface::write(ros::Duration &elapsed_time)
 // to one to write to actual Talon hardware
 // Return true if conversion is OK, false if
 // an unknown mode is hit.
-bool FRCRobotHWInterface::convertControlMode(
+bool CTRERobotHWInterface::convertControlMode(
 	const hardware_interface::TalonMode input_mode,
 	ctre::phoenix::motorcontrol::ControlMode &output_mode)
 {
@@ -927,7 +941,7 @@ bool FRCRobotHWInterface::convertControlMode(
 	return true;
 }
 
-bool FRCRobotHWInterface::convertNeutralMode(
+bool CTRERobotHWInterface::convertNeutralMode(
 	const hardware_interface::NeutralMode input_mode,
 	ctre::phoenix::motorcontrol::NeutralMode &output_mode)
 {
@@ -951,7 +965,7 @@ bool FRCRobotHWInterface::convertNeutralMode(
 	return true;
 }
 
-bool FRCRobotHWInterface::convertFeedbackDevice(
+bool CTRERobotHWInterface::convertFeedbackDevice(
 	const hardware_interface::FeedbackDevice input_fd,
 	ctre::phoenix::motorcontrol::FeedbackDevice &output_fd)
 {
@@ -991,7 +1005,7 @@ bool FRCRobotHWInterface::convertFeedbackDevice(
 	return true;
 }
 
-bool FRCRobotHWInterface::convertLimitSwitchSource(
+bool CTRERobotHWInterface::convertLimitSwitchSource(
 	const hardware_interface::LimitSwitchSource input_ls,
 	ctre::phoenix::motorcontrol::LimitSwitchSource &output_ls)
 {
@@ -1016,7 +1030,7 @@ bool FRCRobotHWInterface::convertLimitSwitchSource(
 	return true;
 }
 
-bool FRCRobotHWInterface::convertLimitSwitchNormal(
+bool CTRERobotHWInterface::convertLimitSwitchNormal(
 	const hardware_interface::LimitSwitchNormal input_ls,
 	ctre::phoenix::motorcontrol::LimitSwitchNormal &output_ls)
 {
@@ -1039,7 +1053,7 @@ bool FRCRobotHWInterface::convertLimitSwitchNormal(
 
 }
 
-bool FRCRobotHWInterface::convertVelocityMeasurementPeriod(const hardware_interface::VelocityMeasurementPeriod input_v_m_p, ctre::phoenix::motorcontrol::VelocityMeasPeriod &output_v_m_period)
+bool CTRERobotHWInterface::convertVelocityMeasurementPeriod(const hardware_interface::VelocityMeasurementPeriod input_v_m_p, ctre::phoenix::motorcontrol::VelocityMeasPeriod &output_v_m_period)
 {
 	switch(input_v_m_p)
 	{

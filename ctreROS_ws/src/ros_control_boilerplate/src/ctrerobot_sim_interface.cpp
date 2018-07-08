@@ -33,7 +33,7 @@
  *********************************************************************/
 
 /* Original Author: Dave Coleman
-Desc:   Example ros_control hardware interface blank template for the FRCRobot
+Desc:   Example ros_control hardware interface blank template for the CTRERobot
 For a more detailed simulation example, see sim_hw_interface.cpp
 */
 
@@ -52,20 +52,20 @@ For a more detailed simulation example, see sim_hw_interface.cpp
 namespace ctrerobot_control
 {
 
-FRCRobotSimInterface::FRCRobotSimInterface(ros::NodeHandle &nh,
+CTRERobotSimInterface::CTRERobotSimInterface(ros::NodeHandle &nh,
 		urdf::Model *urdf_model)
-	: ros_control_boilerplate::FRCRobotInterface(nh, urdf_model)
+	: ros_control_boilerplate::CTRERobotInterface(nh, urdf_model)
 {
 }
-FRCRobotSimInterface::~FRCRobotSimInterface()
+CTRERobotSimInterface::~CTRERobotSimInterface()
 {
 }
 
-void FRCRobotSimInterface::init(void)
+void CTRERobotSimInterface::init(void)
 {
 	// Do base class init. This loads common interface info
 	// used by both the real and sim interfaces
-	FRCRobotInterface::init();
+	CTRERobotInterface::init();
     ros::NodeHandle nh_;
 
 	// Loop through the list of joint names
@@ -88,7 +88,7 @@ void FRCRobotSimInterface::init(void)
 	}
 }
 
-void FRCRobotSimInterface::read(ros::Duration &/*elapsed_time*/)
+void CTRERobotSimInterface::read(ros::Duration &/*elapsed_time*/)
 {
 	for (std::size_t joint_id = 0; joint_id < num_can_talon_srxs_; ++joint_id)
 	{
@@ -96,7 +96,7 @@ void FRCRobotSimInterface::read(ros::Duration &/*elapsed_time*/)
     ros::spinOnce();
 }
 
-void FRCRobotSimInterface::write(ros::Duration &elapsed_time)
+void CTRERobotSimInterface::write(ros::Duration &elapsed_time)
 {
 #if 0
 	ROS_INFO_STREAM_THROTTLE(1,

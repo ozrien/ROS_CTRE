@@ -50,9 +50,10 @@ int main(int argc, char **argv)
 	spinner.start();
 
 	// Create the hardware interface specific to your robot
-	boost::shared_ptr<ctrerobot_control::FRCRobotHWInterface> ctrerobot_hw_interface
-	(new ctrerobot_control::FRCRobotHWInterface(nh));
-	ctrerobot_hw_interface->init();
+	boost::shared_ptr<ctrerobot_control::CTRERobotHWInterface> ctrerobot_hw_interface
+	(new ctrerobot_control::CTRERobotHWInterface(nh));
+	const char * interface = argv[1];
+    ctrerobot_hw_interface->init(interface);
 
 	// Start the control loop
 	ros_control_boilerplate::GenericHWControlLoop control_loop(nh, ctrerobot_hw_interface);

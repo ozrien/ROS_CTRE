@@ -41,7 +41,7 @@
 
 namespace ros_control_boilerplate
 {
-FRCRobotInterface::FRCRobotInterface(ros::NodeHandle &nh, urdf::Model *urdf_model) :
+CTRERobotInterface::CTRERobotInterface(ros::NodeHandle &nh, urdf::Model *urdf_model) :
    	  name_("generic_hw_interface")
 	, nh_(nh)
 	, num_can_talon_srxs_(0)
@@ -103,7 +103,7 @@ FRCRobotInterface::FRCRobotInterface(ros::NodeHandle &nh, urdf::Model *urdf_mode
 	}
 }
 
-void FRCRobotInterface::init()
+void CTRERobotInterface::init()
 {
 	num_can_talon_srxs_ = can_talon_srx_names_.size();
 	// Create vectors of the correct size for
@@ -120,7 +120,7 @@ void FRCRobotInterface::init()
 	// set for that motor controller in config files.
 	for (size_t i = 0; i < num_can_talon_srxs_; i++)
 	{
-		ROS_INFO_STREAM_NAMED(name_, "FRCRobotHWInterface: Registering Talon Interface for " << can_talon_srx_names_[i] << " at hw ID " << can_talon_srx_can_ids_[i]);
+		ROS_INFO_STREAM_NAMED(name_, "CTRERobotHWInterface: Registering Talon Interface for " << can_talon_srx_names_[i] << " at hw ID " << can_talon_srx_can_ids_[i]);
 
 		// Create joint state interface
 		// Also register as JointStateInterface so that legacy
@@ -169,7 +169,7 @@ void FRCRobotInterface::init()
 	registerInterface(&joint_velocity_interface_);
 	registerInterface(&joint_effort_interface_); // empty for now
 
-	ROS_INFO_STREAM_NAMED(name_, "FRCRobotInterface Ready.");
+	ROS_INFO_STREAM_NAMED(name_, "CTRERobotInterface Ready.");
 }
 
 // Note - there are two commented-out can_talon calls here.  If
@@ -182,11 +182,11 @@ void FRCRobotInterface::init()
 // get the value from the talon. For sim, maybe grab it from state?
 
 
-void FRCRobotInterface::reset()
+void CTRERobotInterface::reset()
 {
 }
 
-void FRCRobotInterface::printState()
+void CTRERobotInterface::printState()
 {
 	// WARNING: THIS IS NOT REALTIME SAFE
 	// FOR DEBUGGING ONLY, USE AT YOUR OWN ROBOT's RISK!
@@ -195,7 +195,7 @@ void FRCRobotInterface::printState()
 							 std::endl << printStateHelper());
 }
 
-std::string FRCRobotInterface::printStateHelper()
+std::string CTRERobotInterface::printStateHelper()
 {
 	std::stringstream ss;
 	std::cout.precision(15);
@@ -212,7 +212,7 @@ std::string FRCRobotInterface::printStateHelper()
 	return ss.str();
 }
 
-std::string FRCRobotInterface::printCommandHelper()
+std::string CTRERobotInterface::printCommandHelper()
 {
 	std::stringstream ss;
 	std::cout.precision(15);
@@ -222,7 +222,7 @@ std::string FRCRobotInterface::printCommandHelper()
 	return ss.str();
 }
 
-void FRCRobotInterface::loadURDF(ros::NodeHandle &nh, std::string param_name)
+void CTRERobotInterface::loadURDF(ros::NodeHandle &nh, std::string param_name)
 {
 	return;
 #if 0

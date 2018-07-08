@@ -33,7 +33,7 @@
  *********************************************************************/
 
 /* Author: Dave Coleman
-   Desc:   Example ros_control hardware interface blank template for the FRCRobot
+   Desc:   Example ros_control hardware interface blank template for the CTRERobot
            For a more detailed simulation example, see sim_hw_interface.h
 */
 
@@ -47,15 +47,15 @@ namespace ctrerobot_control
 {
 
 /// \brief Hardware interface for a robot
-class FRCRobotSimInterface : public ros_control_boilerplate::FRCRobotInterface
+class CTRERobotSimInterface : public ros_control_boilerplate::CTRERobotInterface
 {
 	public:
 		/**
 		 * \brief Constructor
 		 * \param nh - Node handle for topics.
 		 */
-		FRCRobotSimInterface(ros::NodeHandle &nh, urdf::Model *urdf_model = NULL);
-		~FRCRobotSimInterface();
+		CTRERobotSimInterface(ros::NodeHandle &nh, urdf::Model *urdf_model = NULL);
+		~CTRERobotSimInterface();
 
 		virtual void init(void) override;
 

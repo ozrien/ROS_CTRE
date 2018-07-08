@@ -52,8 +52,8 @@ int main(int argc, char **argv)
 	spinner.start();
 
 	// Create the hardware interface specific to your robot
-	boost::shared_ptr<ctrerobot_control::FRCRobotSimInterface> ctrerobot_sim_interface
-	(new ctrerobot_control::FRCRobotSimInterface(nh));
+	boost::shared_ptr<ctrerobot_control::CTRERobotSimInterface> ctrerobot_sim_interface
+	(new ctrerobot_control::CTRERobotSimInterface(nh));
 	ctrerobot_sim_interface->init();
 
 	// Start the control loop
