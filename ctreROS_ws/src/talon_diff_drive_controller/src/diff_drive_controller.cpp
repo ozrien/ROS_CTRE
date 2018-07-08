@@ -304,7 +304,7 @@ namespace talon_diff_drive_controller{
       left_wheel_joints_.initWithNode(hw, nullptr, l_nhs);
       right_wheel_joints_.initWithNode(hw, nullptr, r_nhs);
 
-    sub_command_ = controller_nh.subscribe("/cmd_vel", 1, &TalonDiffDriveController::cmdVelCallback, this);
+    sub_command_ = controller_nh.subscribe("cmd_vel", 1, &TalonDiffDriveController::cmdVelCallback, this);
 
     return true;
   }
