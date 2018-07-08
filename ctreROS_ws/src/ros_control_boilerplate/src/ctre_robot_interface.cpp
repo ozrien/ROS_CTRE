@@ -36,7 +36,7 @@
    Desc:   Helper ros_control hardware interface that loads configurations
 */
 
-#include <ros_control_boilerplate/frc_robot_interface.h>
+#include <ros_control_boilerplate/ctre_robot_interface.h>
 #include <limits>
 
 namespace ros_control_boilerplate
@@ -53,7 +53,7 @@ FRCRobotInterface::FRCRobotInterface(ros::NodeHandle &nh, urdf::Model *urdf_mode
 		urdf_model_ = urdf_model;
 
 	// Load rosparams
-	ros::NodeHandle rpnh(nh_, "hardware_interface"); // TODO(davetcoleman): change the namespace to "frc_robot_interface" aka name_
+	ros::NodeHandle rpnh(nh_, "hardware_interface"); // TODO(davetcoleman): change the namespace to "ctre_robot_interface" aka name_
 
 	// Read a list of joint information from ROS parameters.  Each entry in the list
 	// specifies a name for the joint and a hardware ID corresponding
@@ -174,7 +174,7 @@ void FRCRobotInterface::init()
 
 // Note - there are two commented-out can_talon calls here.  If
 // they're put back in, make customProfileFoo() methods which
-// are virtual in the frc_robot_interface def.  For a Set()
+// are virtual in the ctre_robot_interface def.  For a Set()
 // call, make the virtual one do nothing (like the other
 // calls already). Then in the hw_interface, override it
 // with a method which makes the actual talon call

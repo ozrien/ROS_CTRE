@@ -8,15 +8,15 @@
 
 	<arg name="hw_or_sim" default="hw" />
 
-	<group ns="frcrobot">
+	<group ns="ctrerobot">
 
 		<!-- Load hardware interface -->
-		<node name="frcrobot_hardware_interface" pkg="ros_control_boilerplate" type="frcrobot_$(arg hw_or_sim)_main"
+		<node name="ctrerobot_hardware_interface" pkg="ros_control_boilerplate" type="ctrerobot_$(arg hw_or_sim)_main"
 			output="screen" launch-prefix="$(arg launch_prefix)">
 		</node>
 
 		<!-- Load controller settings -->
-		<remap from="/cmd_vel" to="/frcrobot/diff_drive_controller/cmd_vel"/>
+		<remap from="/cmd_vel" to="/ctrerobot/diff_drive_controller/cmd_vel"/>
 
         <rosparam file="$(find ros_control_boilerplate)/config/diff_drive.yaml" command="load"/>
 

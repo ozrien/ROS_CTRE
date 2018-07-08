@@ -37,7 +37,7 @@ Desc:   Example ros_control hardware interface blank template for the FRCRobot
 For a more detailed simulation example, see sim_hw_interface.cpp
 */
 
-#include <ros_control_boilerplate/frcrobot_sim_interface.h>
+#include <ros_control_boilerplate/ctrerobot_sim_interface.h>
 #include <termios.h>
 #include <signal.h>
 #include <stdio.h>
@@ -49,7 +49,7 @@ For a more detailed simulation example, see sim_hw_interface.cpp
 #include <std_msgs/Float64MultiArray.h>
 
 
-namespace frcrobot_control
+namespace ctrerobot_control
 {
 
 FRCRobotSimInterface::FRCRobotSimInterface(ros::NodeHandle &nh,
@@ -79,7 +79,7 @@ void FRCRobotSimInterface::init(void)
 	// TODO : assert can_talon_srx_names_.size() == can_talon_srx_can_ids_.size()
 	for (size_t i = 0; i < can_talon_srx_names_.size(); i++)
 	{
-		ROS_INFO_STREAM_NAMED("frcrobot_sim_interface",
+		ROS_INFO_STREAM_NAMED("ctrerobot_sim_interface",
 							  "Loading joint " << i << "=" << can_talon_srx_names_[i] <<
 							  " as CAN id " << can_talon_srx_can_ids_[i]);
 		

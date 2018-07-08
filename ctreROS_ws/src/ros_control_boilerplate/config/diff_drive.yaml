@@ -28,9 +28,9 @@ hardware_interface:
 # will be most often show up under 
 # <top level controller manager ns>/<controller ns>/topic
 # e.g.
-# /frcrobot/joint1_talon_controller/command
-# /frcrobot/joint2_talon_controller/command
-# /frcrobot/talon_states
+# /ctrerobot/joint1_talon_controller/command
+# /ctrerobot/joint2_talon_controller/command
+# /ctrerobot/talon_states
 #
 # This one creates the /talon_states topic necessary in ROS
 # It doesn't actually control anything, just takes the internal

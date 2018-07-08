@@ -37,11 +37,11 @@
 */
 
 #include <ros_control_boilerplate/generic_hw_control_loop.h>
-#include <ros_control_boilerplate/frcrobot_hw_interface.h>
+#include <ros_control_boilerplate/ctrerobot_hw_interface.h>
 
 int main(int argc, char **argv)
 {
-	ros::init(argc, argv, "frcrobot_hw_interface");
+	ros::init(argc, argv, "ctrerobot_hw_interface");
 	ros::NodeHandle nh;
 
 	// NOTE: We run the ROS loop in a separate thread as external calls such
@@ -50,12 +50,12 @@ int main(int argc, char **argv)
 	spinner.start();
 
 	// Create the hardware interface specific to your robot
-	boost::shared_ptr<frcrobot_control::FRCRobotHWInterface> frcrobot_hw_interface
-	(new frcrobot_control::FRCRobotHWInterface(nh));
-	frcrobot_hw_interface->init();
+	boost::shared_ptr<ctrerobot_control::FRCRobotHWInterface> ctrerobot_hw_interface
+	(new ctrerobot_control::FRCRobotHWInterface(nh));
+	ctrerobot_hw_interface->init();
 
 	// Start the control loop
-	ros_control_boilerplate::GenericHWControlLoop control_loop(nh, frcrobot_hw_interface);
+	ros_control_boilerplate::GenericHWControlLoop control_loop(nh, ctrerobot_hw_interface);
 
 	control_loop.run(); // Blocks until shutdown signal recieved 
 

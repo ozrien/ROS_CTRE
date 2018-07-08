@@ -62,20 +62,20 @@ include_directories(
 # info for testing code which doens't actually hit
 # RoboRIO or CAN hardware. Eventually expand into
 # controlling some sort of sim?
-add_executable(frcrobot_sim_main 
-	src/frcrobot_sim_main.cpp
-	src/frcrobot_sim_interface.cpp
-	src/frc_robot_interface.cpp
+add_executable(ctrerobot_sim_main 
+	src/ctrerobot_sim_main.cpp
+	src/ctrerobot_sim_interface.cpp
+	src/ctre_robot_interface.cpp
 	src/generic_hw_control_loop.cpp
 )
 
-target_link_libraries(frcrobot_sim_main
+target_link_libraries(ctrerobot_sim_main
 	${catkin_LIBRARIES}
 )
 
 # Forces messages to be generated before
 # the target which uses them
-add_dependencies(frcrobot_sim_main
+add_dependencies(ctrerobot_sim_main
 	${${PROJECT_NAME}_EXPORTED_TARGETS}
 	${catkin_EXPORTED_TARGETS}
 )
@@ -83,7 +83,7 @@ add_dependencies(frcrobot_sim_main
 # Install executable on the off chance you'd ever
 # want to run sim on the RoboRIO
 install(TARGETS
-  frcrobot_sim_main
+  ctrerobot_sim_main
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
@@ -92,25 +92,37 @@ install(TARGETS
 # FRCRobot Hardware Interface only
 
 # Main control executable
-add_executable(frcrobot_hw_main 
-	src/frcrobot_hw_main.cpp
-	src/frcrobot_hw_interface.cpp
-	src/frc_robot_interface.cpp
+add_executable(ctrerobot_hw_main 
+	src/ctrerobot_hw_main.cpp
+	src/ctrerobot_hw_interface.cpp
+	src/ctre_robot_interface.cpp
 	src/generic_hw_control_loop.cpp
 )
 
 
-target_link_libraries(frcrobot_hw_main
+if (${CMAKE_LIBRARY_ARCHITECTURE} STREQUAL "arm-linux-gnueabihf") # Jetson TK1 / Pi
+    set(LIBCTRE_PHOENIX_PATH $ENV{HOME}/CTRE/cpp/lib/arm-linux-gnueabihf/libCTRE_Phoenix.a)
+    set(LIBCTRE_PHOENIXCCI_PATH $ENV{HOME}/CTRE/cpp/lib/arm-linux-gnueabihf/libCTRE_PhoenixCCI.a)
+
+elseif (${CMAKE_LIBRARY_ARCHITECTURE} STREQUAL "aarch64-linux-gnu") # Jetson TX1/TX2 (not set up right now)
+    set(LIBCTRE_PHOENIX_PATH $ENV{HOME}/CTRE/cpp/lib/aarch64-linux-gnu/libCTRE_Phoenix.a)
+    set(LIBCTRE_PHOENIXCCI_PATH $ENV{HOME}/CTRE/cpp/lib/aarch64-linux-gnu/libCTRE_PhoenixCCI.a)
+else () #assumed x86
+    set(LIBCTRE_PHOENIX_PATH $ENV{HOME}/CTRE/cpp/lib/x86/libCTRE_Phoenix.a)
+    set(LIBCTRE_PHOENIXCCI_PATH $ENV{HOME}/CTRE/cpp/lib/x86/libCTRE_PhoenixCCI.a)
+endif()
+
+target_link_libraries(ctrerobot_hw_main
 	${catkin_LIBRARIES}
-    $ENV{HOME}/CTRE/cpp/lib/libCTRE_Phoenix.a
-    $ENV{HOME}/CTRE/cpp/lib/libCTRE_PhoenixCCI.a
+    ${LIBCTRE_PHOENIX_PATH}
+    ${LIBCTRE_PHOENIXCCI_PATH}
 )
 
 ## Add cmake target dependencies of the executable
 ## same as for the library above. This is needed to force
 ## talon controller messages to be built before the
 ## talon controller code tries to use them
-add_dependencies(frcrobot_hw_main
+add_dependencies(ctrerobot_hw_main
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS}
 )
@@ -155,8 +167,8 @@ target_link_libraries(${PROJECT_NAME}_csv_to_controller_main
 
 ## Install ------------------------------------------------------------
 install(TARGETS
-  frcrobot_hw_main
-  frcrobot_sim_main
+  ctrerobot_hw_main
+  ctrerobot_sim_main
     ${PROJECT_NAME}_test_trajectory
     ${PROJECT_NAME}_controller_to_csv_main
     ${PROJECT_NAME}_csv_to_controller_main

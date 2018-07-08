@@ -39,7 +39,7 @@
 
 #pragma once
 #include <time.h>
-#include <ros_control_boilerplate/frc_robot_interface.h>
+#include <ros_control_boilerplate/ctre_robot_interface.h>
 
 namespace ros_control_boilerplate
 {

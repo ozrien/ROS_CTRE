@@ -43,11 +43,11 @@
 #include <thread>
 
 // ROS message types
-#include "ros_control_boilerplate/frcrobot_hw_interface.h"
+#include "ros_control_boilerplate/ctrerobot_hw_interface.h"
 
 #include <ctre/phoenix/MotorControl/SensorCollection.h>
 
-namespace frcrobot_control
+namespace ctrerobot_control
 {
 const int pidIdx = 0; //0 for primary closed-loop, 1 for cascaded closed-loop
 const int timeoutMs = 0; //If nonzero, function will wait for config success and report an error if it times out. If zero, no blocking or checking is performed
@@ -75,16 +75,16 @@ void FRCRobotHWInterface::init(void)
 
 	for (size_t i = 0; i < num_can_talon_srxs_; i++)
 	{
-		ROS_INFO_STREAM_NAMED("frcrobot_hw_interface",
+		ROS_INFO_STREAM_NAMED("ctrerobot_hw_interface",
 							  "Loading joint " << i << "=" << can_talon_srx_names_[i] <<
 							  " as CAN id " << can_talon_srx_can_ids_[i]);
 		can_talons_.push_back(std::make_shared<ctre::phoenix::motorcontrol::can::TalonSRX>(can_talon_srx_can_ids_[i]));
 		can_talons_[i]->Set(ctre::phoenix::motorcontrol::ControlMode::Disabled, 0);
-		ROS_INFO_STREAM_NAMED("frcrobot_hw_interface",
+		ROS_INFO_STREAM_NAMED("ctrerobot_hw_interface",
 							  "\tTalon SRX firmware version " << can_talons_[i]->GetFirmwareVersion());
 	}
 
-	ROS_INFO_NAMED("frcrobot_hw_interface", "FRCRobotHWInterface Ready.");
+	ROS_INFO_NAMED("ctrerobot_hw_interface", "FRCRobotHWInterface Ready.");
 }
 
 void FRCRobotHWInterface::read(ros::Duration &/*elapsed_time*/)

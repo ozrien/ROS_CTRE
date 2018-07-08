@@ -19,7 +19,7 @@ else() # Native builds
   set (CMAKE_RANLIB "gcc-ranlib")
   set (CMAKE_AR     "gcc-ar")
   
-  if (${CMAKE_LIBRARY_ARCHITECTURE} STREQUAL "arm-linux-gnueabihf") # Jetson TK1
+  if (${CMAKE_LIBRARY_ARCHITECTURE} STREQUAL "arm-linux-gnueabihf") # Jetson TK1 / Pi
 	set (OPT_FLAGS "-Ofast -flto=4 -fno-finite-math-only -mcpu=cortex-a15 -mfpu=neon-vfpv4 -fvect-cost-model")
     unset(CUDA_USE_STATIC_CUDA_RUNTIME CACHE)
     option(CUDA_USE_STATIC_CUDA_RUNTIME OFF)

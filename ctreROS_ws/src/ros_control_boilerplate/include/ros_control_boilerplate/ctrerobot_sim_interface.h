@@ -39,33 +39,24 @@
 
 #pragma once
 
+#include <ros_control_boilerplate/ctre_robot_interface.h>
 #include <atomic>
 #include <thread>
 
-#include <ros_control_boilerplate/frc_robot_interface.h>
-#include <realtime_tools/realtime_publisher.h>
-
-#include <ctre/phoenix/MotorControl/CAN/TalonSRX.h>
-#include <std_msgs/Float64.h>
-
-namespace frcrobot_control
+namespace ctrerobot_control
 {
-// Very simple code to communicate with the HAL. This recieves
-// packets from the driver station and lets the field management
-// know our robot is alive.  
 
 /// \brief Hardware interface for a robot
-class FRCRobotHWInterface : public ros_control_boilerplate::FRCRobotInterface
+class FRCRobotSimInterface : public ros_control_boilerplate::FRCRobotInterface
 {
 	public:
 		/**
 		 * \brief Constructor
 		 * \param nh - Node handle for topics.
 		 */
-		FRCRobotHWInterface(ros::NodeHandle &nh, urdf::Model *urdf_model = NULL);
-		~FRCRobotHWInterface();
+		FRCRobotSimInterface(ros::NodeHandle &nh, urdf::Model *urdf_model = NULL);
+		~FRCRobotSimInterface();
 
-		/** \brief Initialize the hardware interface */
 		virtual void init(void) override;
 
 		/** \brief Read the state from the robot hardware. */
@@ -74,35 +65,6 @@ class FRCRobotHWInterface : public ros_control_boilerplate::FRCRobotInterface
 		/** \brief Write the command to the robot hardware. */
 		virtual void write(ros::Duration &elapsed_time) override;
 
-	private:
-		void hal_keepalive_thread(void);
-
-		/* Get conversion factor for position, velocity, and closed-loop stuff */
-
-		double getConversionFactor(int encoder_cycle_per_revolution, hardware_interface::FeedbackDevice encoder_feedback, hardware_interface::TalonMode talon_mode);
-
-		bool convertControlMode(const hardware_interface::TalonMode input_mode,
-								ctre::phoenix::motorcontrol::ControlMode &output_mode);
-		bool convertNeutralMode(const hardware_interface::NeutralMode input_mode,
-								ctre::phoenix::motorcontrol::NeutralMode &output_mode);
-		bool convertFeedbackDevice(
-			const hardware_interface::FeedbackDevice input_fd,
-			ctre::phoenix::motorcontrol::FeedbackDevice &output_fd);
-		bool convertLimitSwitchSource(
-			const hardware_interface::LimitSwitchSource input_ls,
-			ctre::phoenix::motorcontrol::LimitSwitchSource &output_ls);
-		bool convertLimitSwitchNormal(
-			const hardware_interface::LimitSwitchNormal input_ls,
-			ctre::phoenix::motorcontrol::LimitSwitchNormal &output_ls);
-		bool convertVelocityMeasurementPeriod(
-			const hardware_interface::VelocityMeasurementPeriod input_v_m_p, 
-			ctre::phoenix::motorcontrol::VelocityMeasPeriod &output_v_m_period);
-
-		bool safeTalonCall(ctre::phoenix::ErrorCode error_code, 
-				const std::string &talon_method_name);
-
-		std::vector<std::shared_ptr<ctre::phoenix::motorcontrol::can::TalonSRX>> can_talons_;
 };  // class
 
 }  // namespace
-
