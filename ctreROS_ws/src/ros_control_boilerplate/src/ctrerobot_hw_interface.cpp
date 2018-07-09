@@ -96,7 +96,8 @@ void CTRERobotHWInterface::init(const char * interface)
 }
 void CTRERobotHWInterface::enableJoy(const sensor_msgs::Joy& joy)
 {
-    if(joy.buttons[0] && ((ros::Time::now() - joy.header.stamp) > ros::Duration(0.1))) { //TODO: fix
+    //ROS_WARN_STREAM("b4: " << joy.buttons[4] << " stamp sync: " << (ros::Time::now() - joy.header.stamp));
+    if(joy.buttons[4] && ((ros::Time::now() - joy.header.stamp) < ros::Duration(0.1))) { //TODO: fix
         ctre::phoenix::platform::SysWatchdog::GetInstance().Feed(100);
     }
 }

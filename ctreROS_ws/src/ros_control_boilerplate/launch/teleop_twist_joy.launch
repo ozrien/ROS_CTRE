@@ -10,13 +10,14 @@
 
         <node name="joy_node" pkg="joy" type="joy_node" respawn="false"
             output="screen">
-        <param name="autorepeat_rate" type="double" value="50.0" />
+            <param name="autorepeat_rate" type="double" value="50.0" />
         </node>
 
 		<!-- Load controller manager -->
 		<node name="teleop_node" pkg="teleop_twist_joy" type="teleop_node" respawn="false"
 			output="screen">
 		    <remap from= "/ctrerobot/cmd_vel" to="/ctrerobot/diff_drive_controller/cmd_vel"/>
+            <param name="enable_button" type="int" value="4" />
         </node>
 
 		<!-- Load controller settings -->
