@@ -9,7 +9,9 @@
 	<group ns="ctrerobot">
 
         <node name="joy_node" pkg="joy" type="joy_node" respawn="false"
-            output="screen"/>
+            output="screen">
+        <param name="autorepeat_rate" type="double" value="50.0" />
+        </node>
 
 		<!-- Load controller manager -->
 		<node name="teleop_node" pkg="teleop_twist_joy" type="teleop_node" respawn="false"
