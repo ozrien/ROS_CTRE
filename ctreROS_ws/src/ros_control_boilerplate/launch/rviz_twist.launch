@@ -13,7 +13,7 @@
         <node name="to_stamped" pkg="twist_to_stamped" type="to_stamped.py" output="screen" />
 
         <node name="twistvisualisation" pkg="rviz" type="rviz" output="screen" args="-d $( find ros_control_boilerplate)/rviz/twist.rviz" />
-		<!-- Load controller settings -->
+	<!--include name="-->
 	</group>
 
 </launch>

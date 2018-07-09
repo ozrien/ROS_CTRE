@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<launch>
+
+	<!-- GDB functionality -->
+
+	<arg name="debug" default="false" />
+	<arg unless="$(arg debug)" name="launch_prefix" value="" />
+	<arg     if="$(arg debug)" name="launch_prefix" value="gdb --ex run --args" />
+	
+	<include file="$(find hls_lfcd_lds_driver)/launch/view_hlds_laser.launch"/>
+    <!--group ns="ctrerobot"-->
+        <!--node name="lidar_chmod" pkg="ros_control_boilerplate" type="lidar_chmod.sh"/-->
+	<!--/group-->
+
+</launch>

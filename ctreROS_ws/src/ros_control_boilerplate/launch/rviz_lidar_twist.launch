@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<launch>
+
+	<!-- GDB functionality -->
+
+	<arg name="debug" default="false" />
+	<arg unless="$(arg debug)" name="launch_prefix" value="" />
+	<arg     if="$(arg debug)" name="launch_prefix" value="gdb --ex run --args" />
+	
+	<include file="$(find hls_lfcd_lds_driver)/launch/hlds_laser.launch"/>
+    <group ns="ctrerobot">
+        <node name="static_trans_map" pkg="tf" type="static_transform_publisher" output="screen" args="0.0 0.0 0.0 0.0 0.0 0.0 1.0 base_link map 1000" />
+        <node name="static_trans_laser" pkg="tf" type="static_transform_publisher" output="screen" args="0.0 0.0 0.0 0.0 0.0 0.0 1.0 base_link laser 1000" />
+
+        <node name="to_stamped" pkg="twist_to_stamped" type="to_stamped.py" output="screen" />
+
+        <node name="twistlidarvisualisation" pkg="rviz" type="rviz" output="screen" args="-d $( find ros_control_boilerplate)/rviz/twist_lidar.rviz" />
+	</group>
+
+</launch>

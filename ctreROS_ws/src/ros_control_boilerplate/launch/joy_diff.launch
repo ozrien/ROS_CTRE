@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+
+	<!-- GDB functionality -->
+
+	<arg name="debug" default="false" />
+	<arg unless="$(arg debug)" name="launch_prefix" value="" />
+	<arg     if="$(arg debug)" name="launch_prefix" value="gdb --ex run --args" />
+	
+	<include file="$(find ros_control_boilerplate)/launch/diff_drive_test.launch">
+        <arg name="interface" value="can0"/>
+    </include>
+	<include file="$(find ros_control_boilerplate)/launch/teleop_twist_joy.launch"/>
+</launch>
