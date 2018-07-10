@@ -1,0 +1,6 @@
+#!/bin/bash
+
+source /home/ryan/Documents/CTRE/ROS_CTRE/ctreROS_ws/devel/setup.bash
+sudo /home/ryan/Documents/ubuntu_setup/linux_settings/bash_scripts/canableStart.sh
+
+roslaunch ros_control_boilerplate joy_diff.launch &
