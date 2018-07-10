@@ -9,7 +9,7 @@ All of the launch files are under the ros_control_boilerplate pkg. To run a laun
 Launch files:
 * joy_diff.launch - runs diff_drive_test.launch and teleop_twist_joy.launch. Specifies a can interface of can0 (canable).
 * diff_drive_test.launch - runs the hardware node including the drive train controller. A can interface MUST be specified using the command line argument `interface:=interface_name` replacing interface_name with the name of the interface (at some point I will probably make it auto discover can interfaces correctly).
-* teleop_twist_joy.launch - runs the joystick node and the node which converts joystick data to a twist message for controlling the robot.
+* teleop_twist_joy.launch - runs the joystick node and the node which converts joystick data to a twist message for controlling the robot. The controller must be in x mode.
 * teleop_twist_keyboard.launch - runs a node which publishes twist values with keyboard control. (note, for the robot to be enabled, a joystick msg with button 4 pressed must be sent. This can be done using enable.sh under ctreROS_ws/src/ros_control_boilerplate/scripts/ Use of this enable script is vaguely unsafe)
 * rviz_lidar.launch - runs an rviz display of the lidar (note, lidar must be plugged in and then `sudo chmod a+rw /dev/ttyUSB0` must be run prior to use. lidar_chmod.sh under ctreROS_ws/src/ros_control_boilerplate/scripts/ runs this command )
 * rviz_twist.launch - runs an rviz display of twist (note twist must be published for this to work, plugging in the joystick isn't sufficient on its own)
