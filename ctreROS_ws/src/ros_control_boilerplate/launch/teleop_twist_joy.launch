@@ -18,6 +18,7 @@
             output="screen">
             <remap from= "/ctrerobot/cmd_vel" to="/ctrerobot/diff_drive_controller/cmd_vel"/>
             <param name="enable_button" type="int" value="4" />
+            <param name="angular_axis" type="int" value="3" />
         </node>
 
         <!-- Load controller settings -->
