@@ -21,10 +21,11 @@ Some basic ROS commands:
 * Topics can be subcribed to with `rostopic echo topic_name` with the correct topic_name
 
 Other useful commands/demos:
-* `sudo ~/Documents/ubuntu_setup/linux_settings/bash_scripts/vcanEnable.sh` enables a vcan0 interface.
-* `sudo ~/Documents/ubuntu_setup/linux_settings/bash_scripts/canableStart.sh` enables a canable interface (can0).
+* `vcanEnable.sh` enables a vcan0 interface (in ROS_CTRE directory).
+* `canableStart.sh` enables a canable interface (can0) (in ROS_CTRE directory).
+* See the README at https://github.com/rgreenblatt/candleLight_fw for canable firmware installation instructions.
 * The enable.sh script under ctreROS_ws/src/ros_control_boilerplate/scripts/ publishes an enabling joystick msg. Vaguely unsafe.
 * `rosrun rqt_graph rqt_graph` will display a node/subscriber/publisher diagram.
 * `rosrun rqt_plot rqt_plot` may be used to plot numeric topics. (some topics which will work are `/ctrerobot/diff_drive_controller/cmd_vel/linear/x`, `/ctrerobot/talon_states/output_voltage[0]`, and `/ctrerobot/talon_states/position[1]`) 
 * `candump interface,arbid:mask` will filter and output msgs on that interface. ie `candump can0,000401BF:1FFFFFFF`. vcan can be demonstated with this pretty well.
-* Multi device procedure: extract ips of desired master and desire other device. Make sure both devices can ping each other. `export ROS_MASTER_URI=http://10.0.0.8:11311` on the other device replacing 10.0.0.8 with the master ip. Test this set up by with ros topic list and then by echoing a topic. See http://wiki.ros.org/ROS/Tutorials/MultipleMachines for troubleshooting. (I test and this does work on the CTR network. This setup may not be stable on other networks, static ips are desireable to improve stability.
+* Multi device procedure: extract ips of desired master and desire other device. Make sure both devices can ping each other. `export ROS_MASTER_URI=http://10.0.0.8:11311` on the other device replacing 10.0.0.8 with the master ip. Test this set up by with ros topic list and then by echoing a topic. See http://wiki.ros.org/ROS/Tutorials/MultipleMachines for troubleshooting. (I tested and this does work on the CTR network. This setup may not be stable on other networks, static ips are desireable to improve stability.
