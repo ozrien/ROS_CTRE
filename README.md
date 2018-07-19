@@ -31,4 +31,4 @@ Other useful commands/demos:
 * Multi device procedure: extract ips of desired master and desire other device. Make sure both devices can ping each other. `export ROS_MASTER_URI=http://10.0.0.8:11311` on the other device replacing 10.0.0.8 with the master ip. Test this set up by with ros topic list and then by echoing a topic. See http://wiki.ros.org/ROS/Tutorials/MultipleMachines for troubleshooting. (I tested and this does work on the CTR network. This setup may not be stable on other networks, static ips are desireable to improve stability.
 
 # Zebracorns
-Special thanks to the [Zebracorns-FRC900](https://team900.org/) for contributing their talon interface ROS package!
+Special thanks to the [Zebracorns-FRC900](https://team900.org/) for contributing their talon interface ROS package and hardware interface node!
